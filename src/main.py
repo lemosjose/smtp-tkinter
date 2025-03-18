@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Text
 
 import DNSOutput
+import VPSConnect
 
 
 class SMTPConfigApp(tk.Tk):
@@ -21,10 +22,10 @@ class SMTPConfigApp(tk.Tk):
         tab_control.pack(pady=10, fill="x")
 
         # Labels & Inputs
-        self.create_label_entry("IP da sua VPS", 50)
-        self.create_label_entry("Usuário da VPS", 90)
-        self.create_label_entry("Senha do Usuário na VPS", 130, password=True)
-        self.create_label_entry("Porta SSH utilizada", 170)
+        self.entries["IP"] = self.create_label_entry("IP da sua VPS", 50)
+        self.entries["user"] = self.create_label_entry("Usuário da VPS", 90)
+        self.entries["password"] = self.create_label_entry("Senha do Usuário na VPS", 130, password=True)
+        self.entries["port"] = self.create_label_entry("Porta SSH utilizada", 170)
         self.entries["Domínio"] = self.create_label_entry("Domínio/Subdomínio", 210)
         self.create_label_entry("Novo usuário SMTP", 250)
         self.create_label_entry("Senha do novo usuário SMTP", 290, password=True)
@@ -54,7 +55,12 @@ class SMTPConfigApp(tk.Tk):
 
     # Dummy functions for button actions
     def connect_vps(self):
-        self.output_text.insert(tk.END, "Connecting to VPS...\n")
+        connectAtributes = [self.entries["IP"], self.entries["user"], self.entries["password"], self.entries["port"]]
+        connection = VPSConnect.ConnectionObj(*connectAtributes)
+        connection.connect()
+        self.output_text.insert(tk.END, f" {connection.runUname()} \n")
+
+        
 
         
 
