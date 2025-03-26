@@ -24,5 +24,10 @@ class ConnectionObj:
     def runUname(self) -> str:
         
         comando = self.conn.run("uname -a", hide=True)
-        return comando.stdout.strip
+        return comando.stdout.strip()
+
+    def runSetup(self) -> str:
+
+
+        return comando.stdout.strip()
         

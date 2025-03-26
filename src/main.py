@@ -27,8 +27,8 @@ class SMTPConfigApp(tk.Tk):
         self.entries["password"] = self.create_label_entry("Senha do Usuário na VPS", 130, password=True)
         self.entries["port"] = self.create_label_entry("Porta SSH utilizada", 170)
         self.entries["Domínio"] = self.create_label_entry("Domínio/Subdomínio", 210)
-        self.create_label_entry("Novo usuário SMTP", 250)
-        self.create_label_entry("Senha do novo usuário SMTP", 290, password=True)
+        self.entries["SMTPUser"] = self.create_label_entry("Novo usuário SMTP", 250)
+        self.entries["SMTPPassword"] = self.create_label_entry("Senha do novo usuário SMTP", 290, password=True)
 
         # Output Textbox
         tk.Label(self, text="Output dos Comandos").place(x=10, y=330)
@@ -55,13 +55,19 @@ class SMTPConfigApp(tk.Tk):
 
     # Dummy functions for button actions
     def connect_vps(self):
-        connectAtributes = [self.entries["IP"], self.entries["user"], self.entries["password"], self.entries["port"]]
+        connectAtributes = [self.entries["IP"].get(),
+                            self.entries["user"].get(),
+                            self.entries["password"].get(),
+                            self.entries["port"].get()]
         connection = VPSConnect.ConnectionObj(*connectAtributes)
         connection.connect()
         self.output_text.insert(tk.END, f" {connection.runUname()} \n")
 
-        
-
+    def configurarPacotes(self):
+        connectAtributes = [self.entries["IP"].get(),
+                            self.entries["user"].get(),
+                            self.entries["password"].get(),
+                            self.entries["port"].get()]
         
 
     def create_smtp_user(self):
