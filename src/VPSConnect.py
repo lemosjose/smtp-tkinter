@@ -29,5 +29,10 @@ class ConnectionObj:
     def runSetup(self) -> str:
 
 
+        comando = self.conn.run("bash ../scripts/setup.sh",
+                                pty=True,  
+                                warn=True, 
+                                out_stream=self.output_text)
+        
         return comando.stdout.strip()
         

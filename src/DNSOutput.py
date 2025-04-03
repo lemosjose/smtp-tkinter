@@ -31,7 +31,35 @@ def getRecords(domain: str) -> typing.Dict[str, typing.List[str]]:
     except Exception as e:
         records["NS"] = ["Erro ao obter os registros do nameserver"]
 
- 
+    try:
+        txt_records = resolver.resolve(domain, "TXT")
+        txt_values = [record.to_text().strip('"') for record in txt_records]
+        records["TXT"] = txt_values
+
+        # Extract SPF
+        spf_records = [txt for txt in txt_values if txt.startswith("v=spf1")]
+        records["SPF"] = spf_records if spf_records else ["Nenhum registro SPF encontrado"]
+
+    except Exception:
+        records["TXT"] = ["Erro ao obter registros TXT"]
+        records["SPF"] = ["Erro ao obter registros SPF"]
+
+    # DMARC Record (_dmarc.example.com)
+    try:
+        dmarc_records = resolver.resolve(f"_dmarc.{domain}", "TXT")
+        records["DMARC"] = [record.to_text().strip('"') for record in dmarc_records]
+    except Exception:
+        records["DMARC"] = ["Nenhum registro DMARC encontrado"]
+
+    # DKIM Record (Assume 'default' selector, may vary
+        dkim_selector = "default"
+    try:
+        dkim_records = resolver.resolve(f"{dkim_selector}._domainkey.{domain}", "TXT")
+        records["DKIM"] = [record.to_text().strip('"') for record in dkim_records]
+    except Exception:
+        records["DKIM"] = ["Nenhum registro DKIM encontrado"]
 
     return records
-    
+
+ 
+

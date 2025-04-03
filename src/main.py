@@ -68,6 +68,9 @@ class SMTPConfigApp(tk.Tk):
                             self.entries["user"].get(),
                             self.entries["password"].get(),
                             self.entries["port"].get()]
+
+        self.output_text.insert(tk.END, f"")
+        
         
 
     def create_smtp_user(self):
