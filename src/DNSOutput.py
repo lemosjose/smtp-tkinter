@@ -13,6 +13,7 @@ def getRecords(domain: str) -> typing.Dict[str, typing.List[str]]:
        a_records = resolver.resolve(domain, "A")
        records["A"] = [record.to_text() for record in a_records]
     except Exception as e:
+        print(f"erro {e} ao obter os registros A")
         records["A"] = ["Erro ao obter registros de ip"]
     
     #MX
@@ -20,6 +21,7 @@ def getRecords(domain: str) -> typing.Dict[str, typing.List[str]]:
         mx_records = resolver.resolve(domain, 'MX')
         records["MX"] = [record.to_text() for record in mx_records]
     except Exception as e:
+        print(f"Erro {e} ao obter os registros MX")
         records["MX"] = ["Erro ao obter os registros de mail exchange"]
         
 
@@ -29,6 +31,7 @@ def getRecords(domain: str) -> typing.Dict[str, typing.List[str]]:
         ns_records = resolver.resolve(domain, 'NS')
         records["NS"] = [record.to_text() for record in ns_records]
     except Exception as e:
+        print(f"Erro {e} ao obter os registros NS")
         records["NS"] = ["Erro ao obter os registros do nameserver"]
 
     try:
